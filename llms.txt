@@ -1,0 +1,19 @@
+# Ableton Live MCP Seed
+
+This repo is an Arrangement-first Ableton Live bridge + MCP server scaffold.
+
+Read in this order:
+
+1. AGENTS.md
+2. docs/project_goal.md
+3. docs/codex_project_brief.md
+4. docs/architecture.md
+5. docs/protocol.md
+6. docs/capability_matrix.md
+7. docs/mcp_tool_spec.md
+8. docs/vendor/cycling74_lom_live_12_3_5/classes/*.md
+
+Do not build a generic session-clip toy. The primary use case is helping an experienced producer reason about a real Arrangement View project.
+
+
+Local full LOM markdown docs live in `docs/vendor/cycling74_lom_live_current/`. Prefer `LOM_INDEX_FOR_CODEX.md` first, then open specific class files as needed.

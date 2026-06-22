@@ -1,0 +1,85 @@
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+dist/
+build/
+*.egg-info/
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.*
+credentials.*
+token.*
+tokens.*
+
+# Logs / temp
+*.log
+logs/
+tmp/
+temp/
+.cache/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / agent local state
+.vscode/
+.idea/
+.cursor/
+.codex/
+.claude/
+.specstory/
+.scratch/
+.cursorignore
+.cursorindexingignore
+
+# Archives / generated handoff bundles
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Ableton project/audio artifacts
+*.als
+*.alp
+*.asd
+*.adv
+*.adg
+*.agr
+*.amxd
+*.wav
+*.aif
+*.aiff
+*.mp3
+*.flac
+*.aac
+*.m4a
+Samples/
+Backup/
+Ableton Project Info/
+
+# Local Firecrawl / scrape scratch
+firecrawl_output/
+scrape_output/
+cleanup_qa.json

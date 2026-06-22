@@ -1,0 +1,253 @@
+{
+  "generatedAt": "2026-06-21T21:06:51.4617708-04:00",
+  "sourceIndex": "https://docs.cycling74.com/apiref/lom/",
+  "outputDirectory": "C:\\dev\\v\\git\\live-agent\\docs\\vendor\\cycling74_lom_live_current\\firecrawl_markdown",
+  "urlCount": 46,
+  "urls": [
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/",
+      "file": "_index.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/application_view/",
+      "file": "application_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/application/",
+      "file": "application.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/chain/",
+      "file": "chain.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/chainmixerdevice/",
+      "file": "chainmixerdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/clip_view/",
+      "file": "clip_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/clip/",
+      "file": "clip.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/clipslot/",
+      "file": "clipslot.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/compressordevice/",
+      "file": "compressordevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/controlsurface/",
+      "file": "controlsurface.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/cuepoint/",
+      "file": "cuepoint.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/device_view/",
+      "file": "device_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/device/",
+      "file": "device.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/deviceio/",
+      "file": "deviceio.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/deviceparameter/",
+      "file": "deviceparameter.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/driftdevice/",
+      "file": "driftdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/drumcelldevice/",
+      "file": "drumcelldevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/drumchain/",
+      "file": "drumchain.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/drumpad/",
+      "file": "drumpad.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/eq8device_view/",
+      "file": "eq8device_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/eq8device/",
+      "file": "eq8device.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/groove/",
+      "file": "groove.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/groovepool/",
+      "file": "groovepool.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/hybridreverbdevice/",
+      "file": "hybridreverbdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/looperdevice/",
+      "file": "looperdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/maxdevice/",
+      "file": "maxdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/melddevice/",
+      "file": "melddevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/mixerdevice/",
+      "file": "mixerdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/plugindevice/",
+      "file": "plugindevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/rackdevice_view/",
+      "file": "rackdevice_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/rackdevice/",
+      "file": "rackdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/roardevice/",
+      "file": "roardevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/sample/",
+      "file": "sample.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/scene/",
+      "file": "scene.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/shifterdevice/",
+      "file": "shifterdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/simplerdevice_view/",
+      "file": "simplerdevice_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/simplerdevice/",
+      "file": "simplerdevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/song_view/",
+      "file": "song_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/song/",
+      "file": "song.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/spectralresonatordevice/",
+      "file": "spectralresonatordevice.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/takelane/",
+      "file": "takelane.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/this_device/",
+      "file": "this_device.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/track_view/",
+      "file": "track_view.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/track/",
+      "file": "track.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/tuningsystem/",
+      "file": "tuningsystem.md",
+      "ok": true
+    },
+    {
+      "url": "https://docs.cycling74.com/apiref/lom/wavetabledevice/",
+      "file": "wavetabledevice.md",
+      "ok": true
+    }
+  ],
+  "cleaned_for_codex": true,
+  "cleanup": {
+    "removed_cookie_banner": true,
+    "unescaped_markdown_underscores": true,
+    "unescaped_common_markdown_symbols": [
+      "_",
+      "*",
+      "[",
+      "]"
+    ],
+    "added": [
+      "LOM_INDEX_FOR_CODEX.md",
+      "lom_index_for_codex.json"
+    ]
+  }
+}

@@ -1,0 +1,1265 @@
+{
+  "entries": [
+    {
+      "class": "Application",
+      "file": "application.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/application/",
+      "description": "This class represents the Live application. It is reachable by the root path `live_app`.",
+      "canonical_paths": [
+        "live_app"
+      ],
+      "children": [
+        "view [Application.View](https://docs.cycling74.com/apiref/lom/application_view/ \"Application.View\")read-only",
+        "control_surfaces list of [ControlSurface](https://docs.cycling74.com/apiref/lom/controlsurface/ \"ControlSurface\")read-onlyobserve"
+      ],
+      "properties": [
+        "current_dialog_button_count intread-only",
+        "current_dialog_message symbolread-only",
+        "open_dialog_count intread-onlyobserve",
+        "average_process_usage floatread-onlyobserve",
+        "peak_process_usage floatread-onlyobserve"
+      ],
+      "functions": [
+        "get_bugfix_version",
+        "get_document",
+        "get_major_version",
+        "get_minor_version",
+        "get_version_string",
+        "press_current_dialog_button"
+      ]
+    },
+    {
+      "class": "Application.View",
+      "file": "application_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/application_view/",
+      "description": "This class represents the aspects of the Live application related to viewing the application.",
+      "canonical_paths": [
+        "live_app view"
+      ],
+      "children": [],
+      "properties": [
+        "browse_mode boolread-onlyobserve",
+        "focused_document_view unicoderead-onlyobserve"
+      ],
+      "functions": [
+        "available_main_views",
+        "focus_view",
+        "hide_view",
+        "is_view_visible",
+        "scroll_view",
+        "show_view",
+        "toggle_browse",
+        "zoom_view"
+      ]
+    },
+    {
+      "class": "Chain",
+      "file": "chain.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/chain/",
+      "description": "This class represents a group device chain in Live.",
+      "canonical_paths": [
+        "live_set tracks N devices M chains L",
+        "live_set tracks N devices M return_chains L",
+        "live_set tracks N devices M chains L devices K chains P ...",
+        "live_set tracks N devices M return_chains L devices K chains P ..."
+      ],
+      "children": [
+        "devices [Device](https://docs.cycling74.com/apiref/lom/device/ \"Device\")read-onlyobserve",
+        "mixer_device [ChainMixerDevice](https://docs.cycling74.com/apiref/lom/chainmixerdevice/ \"ChainMixerDevice\")read-only"
+      ],
+      "properties": [
+        "color intobserve",
+        "color_index longobserve",
+        "is_auto_colored boolobserve",
+        "has_audio_input boolread-only",
+        "has_audio_output boolread-only",
+        "has_midi_input boolread-only",
+        "has_midi_output boolread-only",
+        "mute boolobserve",
+        "muted_via_solo boolread-onlyobserve",
+        "name unicodeobserve",
+        "solo boolobserve"
+      ],
+      "functions": [
+        "delete_device",
+        "insert_device"
+      ]
+    },
+    {
+      "class": "ChainMixerDevice",
+      "file": "chainmixerdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/chainmixerdevice/",
+      "description": "This class represents a chain's mixer device in Live.",
+      "canonical_paths": [
+        "live_set tracks N devices M chains L mixer_device",
+        "live_set tracks N devices M return_chains L mixer_device"
+      ],
+      "children": [
+        "sends list of [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-onlyobserve",
+        "chain_activator [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "panning [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "volume [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only"
+      ],
+      "properties": [],
+      "functions": []
+    },
+    {
+      "class": "Clip",
+      "file": "clip.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/clip/",
+      "description": "This class represents a clip in Live. It can be either an audio clip or a MIDI clip in the Arrangement or Session View, depending on the track / slot it lives in.",
+      "canonical_paths": [
+        "live_set tracks N clip_slots M clip",
+        "live_set tracks N arrangement_clips M"
+      ],
+      "children": [
+        "view [Clip.View](https://docs.cycling74.com/apiref/lom/clip_view/ \"Clip.View\")read-only"
+      ],
+      "properties": [
+        "available_warp_modes listread-only",
+        "color intobserve",
+        "color_index intobserve",
+        "end_marker floatobserve",
+        "end_time floatread-onlyobserve",
+        "gain floatobserve",
+        "gain_display_string symbolread-only",
+        "file_path symbolread-only",
+        "groove [Groove](https://docs.cycling74.com/apiref/lom/groove/ \"Groove\")observe",
+        "has_envelopes boolread-onlyobserve",
+        "has_groove boolread-only",
+        "is_session_clip boolread-only",
+        "is_arrangement_clip boolread-only",
+        "is_take_lane_clip boolread-only",
+        "is_audio_clip boolread-only",
+        "is_midi_clip boolread-only",
+        "is_overdubbing boolread-onlyobserve",
+        "is_playing bool",
+        "is_recording boolread-onlyobserve",
+        "is_triggered boolread-only",
+        "launch_mode intobserve",
+        "launch_quantization intobserve",
+        "legato boolobserve",
+        "length floatread-only",
+        "loop_end floatobserve",
+        "loop_jump bangobserve",
+        "loop_start floatobserve",
+        "looping boolobserve",
+        "muted boolobserve",
+        "name symbolobserve",
+        "notes bangobserve",
+        "warp_markers dict/bangread-onlyobserve",
+        "pitch_coarse intobserve",
+        "pitch_fine floatobserve",
+        "playing_position floatread-onlyobserve",
+        "playing_status bangobserve",
+        "position floatread-onlyobserve",
+        "ram_mode boolobserve",
+        "sample_length intread-only",
+        "sample_rate floatread-only",
+        "signature_denominator intobserve",
+        "signature_numerator intobserve",
+        "start_marker floatobserve",
+        "start_time floatread-onlyobserve",
+        "velocity_amount floatobserve",
+        "warp_mode intobserve",
+        "warping boolobserve",
+        "will_record_on_start boolread-only"
+      ],
+      "functions": [
+        "add_new_notes",
+        "add_warp_marker",
+        "apply_note_modifications",
+        "clear_all_envelopes",
+        "clear_envelope",
+        "crop",
+        "deselect_all_notes",
+        "duplicate_loop",
+        "duplicate_notes_by_id",
+        "duplicate_region",
+        "fire",
+        "get_all_notes_extended",
+        "get_notes_by_id",
+        "get_notes_extended",
+        "get_selected_notes_extended",
+        "move_playing_pos",
+        "move_warp_marker",
+        "quantize",
+        "quantize_pitch",
+        "remove_notes_by_id",
+        "remove_notes_extended",
+        "remove_warp_marker",
+        "scrub",
+        "select_all_notes",
+        "select_notes_by_id",
+        "set_fire_button_state",
+        "stop",
+        "stop_scrub"
+      ]
+    },
+    {
+      "class": "Clip.View",
+      "file": "clip_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/clip_view/",
+      "description": "Representing the view aspects of a Clip.",
+      "canonical_paths": [
+        "live_set tracks N clip_slots M clip view"
+      ],
+      "children": [],
+      "properties": [
+        "grid_is_triplet bool",
+        "grid_quantization int"
+      ],
+      "functions": [
+        "hide_envelope",
+        "select_envelope_parameter",
+        "show_envelope",
+        "show_loop"
+      ]
+    },
+    {
+      "class": "ClipSlot",
+      "file": "clipslot.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/clipslot/",
+      "description": "This class represents an entry in Live's Session View matrix.",
+      "canonical_paths": [
+        "live_set tracks N clip_slots M"
+      ],
+      "children": [
+        "clip [Clip](https://docs.cycling74.com/apiref/lom/clip/ \"Clip\")read-only"
+      ],
+      "properties": [
+        "color longread-onlyobserve",
+        "color_index longread-onlyobserve",
+        "controls_other_clips boolread-onlyobserve",
+        "has_clip boolread-onlyobserve",
+        "has_stop_button boolobserve",
+        "is_group_slot boolread-only",
+        "is_playing boolread-only",
+        "is_recording boolread-only",
+        "is_triggered boolread-onlyobserve",
+        "playing_status intread-onlyobserve",
+        "will_record_on_start boolread-only"
+      ],
+      "functions": [
+        "create_audio_clip",
+        "create_clip",
+        "delete_clip",
+        "duplicate_clip_to",
+        "fire",
+        "set_fire_button_state",
+        "stop"
+      ]
+    },
+    {
+      "class": "CompressorDevice",
+      "file": "compressordevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/compressordevice/",
+      "description": "This class represents a Compressor device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "available_input_routing_channels dictread-onlyobserve",
+        "available_input_routing_types dictread-onlyobserve",
+        "input_routing_channel dictobserve",
+        "input_routing_type dictobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "ControlSurface",
+      "file": "controlsurface.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/controlsurface/",
+      "description": "A ControlSurface can be reached either directly by the root path `control_surfaces N` or by getting a list of active control surface IDs, via calling _get control_surfaces_ on an Application object.",
+      "canonical_paths": [
+        "control_surfaces N"
+      ],
+      "children": [],
+      "properties": [
+        "pad_layout symbolread-onlyobserve"
+      ],
+      "functions": [
+        "get_control",
+        "get_control_names",
+        "grab_control",
+        "grab_midi",
+        "register_midi_control",
+        "release_control",
+        "release_midi",
+        "send_midi",
+        "send_receive_sysex"
+      ]
+    },
+    {
+      "class": "CuePoint",
+      "file": "cuepoint.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/cuepoint/",
+      "description": "Represents a locator in the Arrangement View.",
+      "canonical_paths": [
+        "live_set cue_points N"
+      ],
+      "children": [],
+      "properties": [
+        "name symbolobserve",
+        "time floatread-onlyobserve"
+      ],
+      "functions": [
+        "jump"
+      ]
+    },
+    {
+      "class": "Device",
+      "file": "device.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/device/",
+      "description": "This class represents a MIDI or audio device in Live.",
+      "canonical_paths": [
+        "live_set tracks N devices M",
+        "live_set tracks N devices M chains L devices K",
+        "live_set tracks N devices M return_chains L devices K"
+      ],
+      "children": [
+        "parameters list of [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-onlyobserve",
+        "view [Device.View](https://docs.cycling74.com/apiref/lom/device_view/ \"Device.View\")read-only"
+      ],
+      "properties": [
+        "can_have_chains boolread-only",
+        "can_have_drum_pads boolread-only",
+        "class_display_name symbolread-only",
+        "class_name symbolread-only",
+        "is_active boolread-onlyobserve",
+        "name symbolobserve",
+        "type intread-only",
+        "latency_in_samples intread-onlyobserve",
+        "latency_in_ms floatread-onlyobserve",
+        "can_compare_ab boolread-only",
+        "is_using_compare_preset_b boolobserve"
+      ],
+      "functions": [
+        "store_chosen_bank",
+        "save_preset_to_compare_ab_slot"
+      ]
+    },
+    {
+      "class": "Device.View",
+      "file": "device_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/device_view/",
+      "description": "Representing the view aspects of a Device.",
+      "canonical_paths": [
+        "live_set tracks N devices M view",
+        "live_set tracks N devices M chains L devices K view",
+        "live_set tracks N devices M return_chains L devices K view"
+      ],
+      "children": [],
+      "properties": [
+        "is_collapsed boolobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "DeviceIO",
+      "file": "deviceio.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/deviceio/",
+      "description": "This class represents an input or output bus of a Live device.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "available_routing_channels dictionaryread-onlyobserve",
+        "available_routing_types dictionaryread-onlyobserve",
+        "default_external_routing_channel_is_none bool",
+        "routing_channel dictionaryobserve",
+        "routing_type dictionaryobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "DeviceParameter",
+      "file": "deviceparameter.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/deviceparameter/",
+      "description": "This class represents an (automatable) parameter within a MIDI or audio device. To modify a device parameter, set its `value` property or send its object ID to [live.remote~](https://docs.cycling74.com/reference/live.remote~ \"live.remote~\").",
+      "canonical_paths": [
+        "live_set tracks N devices M parameters L"
+      ],
+      "children": [],
+      "properties": [
+        "automation_state intread-onlyobserve",
+        "default_value floatread-only",
+        "is_enabled boolread-only",
+        "is_quantized boolread-only",
+        "max floatread-only",
+        "min floatread-only",
+        "name symbolread-only",
+        "original_name symbolread-only",
+        "state intread-onlyobserve",
+        "value floatobserve",
+        "display_value floatobserve",
+        "value_items StringVectorread-only"
+      ],
+      "functions": [
+        "re_enable_automation",
+        "str_for_value",
+        "__str__"
+      ]
+    },
+    {
+      "class": "DriftDevice",
+      "file": "driftdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/driftdevice/",
+      "description": "This class represents an instance of a Drift device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "mod_matrix_filter_source_1_index intobserve",
+        "mod_matrix_filter_source_1_list StringVectorread-only",
+        "mod_matrix_filter_source_2_index intobserve",
+        "mod_matrix_filter_source_2_list StringVectorread-only",
+        "mod_matrix_lfo_source_index intobserve",
+        "mod_matrix_lfo_source_list StringVectorread-only",
+        "mod_matrix_pitch_source_1_index intobserve",
+        "mod_matrix_pitch_source_1_list StringVectorread-only",
+        "mod_matrix_pitch_source_2_index intobserve",
+        "mod_matrix_pitch_source_2_list StringVectorread-only",
+        "mod_matrix_shape_source_index intobserve",
+        "mod_matrix_shape_source_list StringVectorread-only",
+        "mod_matrix_source_1_index intobserve",
+        "mod_matrix_source_1_list StringVectorread-only",
+        "mod_matrix_source_2_index intobserve",
+        "mod_matrix_source_2_list StringVectorread-only",
+        "mod_matrix_source_3_index intobserve",
+        "mod_matrix_source_3_list StringVectorread-only",
+        "mod_matrix_target_1_index intobserve",
+        "mod_matrix_target_1_list StringVectorread-only",
+        "mod_matrix_target_2_index intobserve",
+        "mod_matrix_target_2_list StringVectorread-only",
+        "mod_matrix_target_3_index intobserve",
+        "mod_matrix_target_3_list StringVectorread-only",
+        "pitch_bend_range intobserve",
+        "voice_count_index intobserve",
+        "voice_count_list StringVectorread-only",
+        "voice_mode_index intobserve",
+        "voice_mode_list StringVectorread-only"
+      ],
+      "functions": []
+    },
+    {
+      "class": "DrumCellDevice",
+      "file": "drumcelldevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/drumcelldevice/",
+      "description": "This class represents an instance of a Drum Sampler device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "gain floatobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "DrumChain",
+      "file": "drumchain.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/drumchain/",
+      "description": "This class represents a Drum Rack device chain in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "in_note intobserve",
+        "out_note intobserve",
+        "choke_group intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "DrumPad",
+      "file": "drumpad.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/drumpad/",
+      "description": "This class represents a Drum Rack pad in Live.",
+      "canonical_paths": [
+        "live_set tracks N devices M drum_pads L"
+      ],
+      "children": [
+        "chains [Chain](https://docs.cycling74.com/apiref/lom/chain/ \"Chain\")read-onlyobserve"
+      ],
+      "properties": [
+        "mute boolobserve",
+        "name symbolread-onlyobserve",
+        "note intread-only",
+        "solo boolobserve"
+      ],
+      "functions": [
+        "delete_all_chains"
+      ]
+    },
+    {
+      "class": "Eq8Device",
+      "file": "eq8device.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/eq8device/",
+      "description": "This class represents an instance of an EQ Eight device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "edit_mode boolobserve",
+        "global_mode intobserve",
+        "oversample boolobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "Eq8Device.View",
+      "file": "eq8device_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/eq8device_view/",
+      "description": "Represents the view aspects of an Eq8Device.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "selected_band intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "Groove",
+      "file": "groove.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/groove/",
+      "description": "This class represents a groove in Live.",
+      "canonical_paths": [
+        "live_set groove_pool grooves N",
+        "live_set tracks N clip_slots M clip groove"
+      ],
+      "children": [
+        "base int",
+        "name symbolobserve",
+        "quantization_amount floatobserve",
+        "random_amount floatobserve",
+        "timing_amount floatobserve",
+        "velocity_amount floatobserve"
+      ],
+      "properties": [],
+      "functions": []
+    },
+    {
+      "class": "GroovePool",
+      "file": "groovepool.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/groovepool/",
+      "description": "This class represents the groove pool in Live. It provides access to the current set's list of grooves.",
+      "canonical_paths": [
+        "live_set groove_pool"
+      ],
+      "children": [
+        "grooves list of [Groove](https://docs.cycling74.com/apiref/lom/groove/ \"Groove\")read-onlyobserve"
+      ],
+      "properties": [],
+      "functions": []
+    },
+    {
+      "class": "HybridReverbDevice",
+      "file": "hybridreverbdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/hybridreverbdevice/",
+      "description": "This class represents an instance of a Hybrid Reverb device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "ir_attack_time floatobserve",
+        "ir_category_index intobserve",
+        "ir_category_list StringVectorread-only",
+        "ir_decay_time floatobserve",
+        "ir_file_index intobserve",
+        "ir_file_list StringVectorread-onlyobserve",
+        "ir_size_factor floatobserve",
+        "ir_time_shaping_on boolobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "LooperDevice",
+      "file": "looperdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/looperdevice/",
+      "description": "This class represents an instance of a Looper device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "loop_length floatread-onlyobserve",
+        "overdub_after_record boolobserve",
+        "record_length_index intobserve",
+        "record_length_list StringVectorread-only",
+        "tempo floatread-onlyobserve"
+      ],
+      "functions": [
+        "clear",
+        "double_speed",
+        "half_speed",
+        "double_length",
+        "half_length",
+        "record",
+        "overdub",
+        "play",
+        "stop",
+        "undo",
+        "export_to_clip_slot"
+      ]
+    },
+    {
+      "class": "MaxDevice",
+      "file": "maxdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/maxdevice/",
+      "description": "This class represents a Max for Live device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "audio_inputs list of [DeviceIO](https://docs.cycling74.com/apiref/lom/deviceio/ \"DeviceIO\")read-onlyobserve",
+        "audio_outputs list of [DeviceIO](https://docs.cycling74.com/apiref/lom/deviceio/ \"DeviceIO\")read-onlyobserve",
+        "midi_inputs list of [DeviceIO](https://docs.cycling74.com/apiref/lom/deviceio/ \"DeviceIO\")read-onlyobserve",
+        "midi_outputs list of [DeviceIO](https://docs.cycling74.com/apiref/lom/deviceio/ \"DeviceIO\")read-onlyobserve"
+      ],
+      "functions": [
+        "get_bank_count",
+        "get_bank_name",
+        "get_bank_parameters"
+      ]
+    },
+    {
+      "class": "MeldDevice",
+      "file": "melddevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/melddevice/",
+      "description": "This class represents an instance of a Meld device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "selected_engine intobserve",
+        "unison_voices intobserve",
+        "mono_poly intobserve",
+        "poly_voices intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "MixerDevice",
+      "file": "mixerdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/mixerdevice/",
+      "description": "This class represents a mixer device in Live. It provides access to volume, panning and other [DeviceParameter](https://docs.cycling74.com/apiref/lom/mixerdevice/#DeviceParameter) objects. See [DeviceParameter](https://docs.cycling74.com/apiref/lom/mixerdevice/#DeviceParameter) to learn how to modify them.",
+      "canonical_paths": [
+        "live_set tracks N mixer_device"
+      ],
+      "children": [
+        "sends list of [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-onlyobserve",
+        "cue_volume [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "crossfader [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "left_split_stereo [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "panning [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "right_split_stereo [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "song_tempo [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "track_activator [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "volume [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only"
+      ],
+      "properties": [
+        "crossfade_assign intobserve",
+        "panning_mode intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "PluginDevice",
+      "file": "plugindevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/plugindevice/",
+      "description": "This class represents a plug-in device.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "presets StringVectorread-onlyobserve",
+        "selected_preset_index intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "RackDevice",
+      "file": "rackdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/rackdevice/",
+      "description": "This class represents a Live Rack Device.",
+      "canonical_paths": [],
+      "children": [
+        "chain_selector [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-only",
+        "chains list of [Chain](https://docs.cycling74.com/apiref/lom/chain/ \"Chain\")read-onlyobserve",
+        "drum_pads list of [DrumPad](https://docs.cycling74.com/apiref/lom/drumpad/ \"DrumPad\")read-onlyobserve",
+        "return_chains list of [Chain](https://docs.cycling74.com/apiref/lom/chain/ \"Chain\")read-onlyobserve",
+        "visible_drum_pads list of [DrumPad](https://docs.cycling74.com/apiref/lom/drumpad/ \"DrumPad\")read-onlyobserve"
+      ],
+      "properties": [
+        "can_show_chains boolread-only",
+        "has_drum_pads boolread-onlyobserve",
+        "has_macro_mappings boolread-onlyobserve",
+        "is_showing_chains boolobserve",
+        "variation_count intread-onlyobserve",
+        "selected_variation_index int",
+        "visible_macro_count intread-onlyobserve"
+      ],
+      "functions": [
+        "copy_pad",
+        "add_macro",
+        "insert_chain",
+        "remove_macro",
+        "randomize_macros",
+        "store_variation",
+        "recall_selected_variation",
+        "recall_last_used_variation",
+        "delete_selected_variation"
+      ]
+    },
+    {
+      "class": "RackDevice.View",
+      "file": "rackdevice_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/rackdevice_view/",
+      "description": "Represents the view aspects of a Rack Device.",
+      "canonical_paths": [],
+      "children": [
+        "selected_drum_pad [DrumPad](https://docs.cycling74.com/apiref/lom/drumpad/ \"DrumPad\")observe",
+        "selected_chain [Chain](https://docs.cycling74.com/apiref/lom/chain/ \"Chain\")observe"
+      ],
+      "properties": [
+        "drum_pads_scroll_position intobserve",
+        "is_showing_chain_devices boolobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "RoarDevice",
+      "file": "roardevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/roardevice/",
+      "description": "This class represents an instance of a Roar device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "routing_mode_index intobserve",
+        "routing_mode_list StringVectorread-only",
+        "env_listen boolobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "Sample",
+      "file": "sample.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/sample/",
+      "description": "This class represents a sample file loaded into Simpler.",
+      "canonical_paths": [
+        "live_set tracks N devices N sample"
+      ],
+      "children": [],
+      "properties": [
+        "beats_granulation_resolution intobserve",
+        "beats_transient_envelope floatobserve",
+        "beats_transient_loop_mode intobserve",
+        "complex_pro_envelope floatobserve",
+        "complex_pro_formants floatobserve",
+        "end_marker intobserve",
+        "file_path unicoderead-onlyobserve",
+        "gain floatobserve",
+        "length intread-only",
+        "sample_rate intread-only",
+        "slices list of intread-onlyobserve",
+        "slicing_sensitivity floatobserve",
+        "start_marker intobserve",
+        "texture_flux floatobserve",
+        "texture_grain_size floatobserve",
+        "tones_grain_size floatobserve",
+        "warp_markers dict/bangread-onlyobserve",
+        "warp_mode intobserve",
+        "warping boolobserve",
+        "slicing_style intobserve",
+        "slicing_beat_division intobserve",
+        "slicing_region_count intobserve"
+      ],
+      "functions": [
+        "gain_display_string",
+        "insert_slice",
+        "move_slice",
+        "remove_slice",
+        "clear_slices",
+        "reset_slices"
+      ]
+    },
+    {
+      "class": "Scene",
+      "file": "scene.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/scene/",
+      "description": "This class represents a series of clip slots in Live's Session View matrix.",
+      "canonical_paths": [
+        "live_set scenes N"
+      ],
+      "children": [
+        "clip_slots list of [ClipSlot](https://docs.cycling74.com/apiref/lom/clipslot/ \"ClipSlot\")read-onlyobserve"
+      ],
+      "properties": [
+        "color intobserve",
+        "color_index longobserve",
+        "is_empty boolread-only",
+        "is_triggered boolread-onlyobserve",
+        "name symbolobserve",
+        "tempo floatobserve",
+        "tempo_enabled boolobserve",
+        "time_signature_numerator intobserve",
+        "time_signature_denominator intobserve",
+        "time_signature_enabled boolobserve"
+      ],
+      "functions": [
+        "fire",
+        "fire_as_selected",
+        "set_fire_button_state"
+      ]
+    },
+    {
+      "class": "ShifterDevice",
+      "file": "shifterdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/shifterdevice/",
+      "description": "This class represents an instance of the Shifter audio effect.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "pitch_bend_range intobserve",
+        "pitch_mode_index intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "SimplerDevice",
+      "file": "simplerdevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/simplerdevice/",
+      "description": "This class represents an instance of Simpler.",
+      "canonical_paths": [],
+      "children": [
+        "sample [Sample](https://docs.cycling74.com/apiref/lom/sample/ \"Sample\")read-onlyobserve"
+      ],
+      "properties": [
+        "can_warp_as boolread-onlyobserve",
+        "can_warp_double boolread-onlyobserve",
+        "can_warp_half boolread-onlyobserve",
+        "multi_sample_mode boolread-onlyobserve",
+        "pad_slicing boolobserve",
+        "playback_mode intobserve",
+        "playing_position floatread-onlyobserve",
+        "playing_position_enabled boolread-onlyobserve",
+        "retrigger boolobserve",
+        "slicing_playback_mode intobserve",
+        "voices intobserve"
+      ],
+      "functions": [
+        "crop",
+        "guess_playback_length",
+        "reverse",
+        "warp_as",
+        "warp_double",
+        "warp_half"
+      ]
+    },
+    {
+      "class": "SimplerDevice.View",
+      "file": "simplerdevice_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/simplerdevice_view/",
+      "description": "Represents the view aspects of a SimplerDevice.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "selected_slice intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "Song",
+      "file": "song.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/song/",
+      "description": "This class represents a Live Set. The current Live Set is reachable by the root path `live_set`.",
+      "canonical_paths": [
+        "live_set"
+      ],
+      "children": [
+        "cue_points list of [CuePoint](https://docs.cycling74.com/apiref/lom/cuepoint/ \"CuePoint\")read-onlyobserve",
+        "return_tracks list of [Track](https://docs.cycling74.com/apiref/lom/track/ \"Track\")read-onlyobserve",
+        "scenes list of [Scene](https://docs.cycling74.com/apiref/lom/scene/ \"Scene\")read-onlyobserve",
+        "tracks list of [Track](https://docs.cycling74.com/apiref/lom/track/ \"Track\")read-onlyobserve",
+        "visible_tracks list of [Track](https://docs.cycling74.com/apiref/lom/track/ \"Track\")read-onlyobserve",
+        "master_track [Track](https://docs.cycling74.com/apiref/lom/track/ \"Track\")read-only",
+        "view [Song.View](https://docs.cycling74.com/apiref/lom/song_view/ \"Song.View\")read-only",
+        "groove_pool [GroovePool](https://docs.cycling74.com/apiref/lom/groovepool/ \"GroovePool\")read-only",
+        "tuning_system [TuningSystem](https://docs.cycling74.com/apiref/lom/tuningsystem/ \"TuningSystem\")read-onlyobserve"
+      ],
+      "properties": [
+        "appointed_device [Device](https://docs.cycling74.com/apiref/lom/device/ \"Device\")read-onlyobserve",
+        "arrangement_overdub boolobserve",
+        "back_to_arranger boolobserve",
+        "can_capture_midi boolread-onlyobserve",
+        "can_jump_to_next_cue boolread-onlyobserve",
+        "can_jump_to_prev_cue boolread-onlyobserve",
+        "can_redo boolread-only",
+        "can_undo boolread-only",
+        "clip_trigger_quantization intobserve",
+        "count_in_duration intread-onlyobserve",
+        "current_song_time floatobserve",
+        "exclusive_arm boolread-only",
+        "exclusive_solo boolread-only",
+        "file_path symbolread-only",
+        "groove_amount floatobserve",
+        "is_ableton_link_enabled boolobserve",
+        "is_ableton_link_start_stop_sync_enabled boolobserve",
+        "is_counting_in boolread-onlyobserve",
+        "is_playing boolobserve",
+        "last_event_time floatread-only",
+        "loop boolobserve",
+        "loop_length floatobserve",
+        "loop_start floatobserve",
+        "metronome boolobserve",
+        "midi_recording_quantization intobserve",
+        "name symbolread-only",
+        "nudge_down boolobserve",
+        "nudge_up boolobserve",
+        "tempo_follower_enabled boolobserve",
+        "overdub boolobserve",
+        "punch_in boolobserve",
+        "punch_out boolobserve",
+        "re_enable_automation_enabled boolread-onlyobserve",
+        "record_mode boolobserve",
+        "root_note intobserve",
+        "scale_intervals listread-onlyobserve",
+        "scale_mode boolobserve",
+        "scale_name unicodeobserve",
+        "select_on_launch boolread-only",
+        "session_automation_record boolobserve",
+        "session_record boolobserve",
+        "session_record_status intread-onlyobserve",
+        "signature_denominator intobserve",
+        "signature_numerator intobserve",
+        "song_length floatread-onlyobserve",
+        "start_time floatobserve",
+        "swing_amount floatobserve",
+        "tempo floatobserve"
+      ],
+      "functions": [
+        "capture_and_insert_scene",
+        "capture_midi",
+        "continue_playing",
+        "create_audio_track",
+        "create_midi_track",
+        "create_return_track",
+        "create_scene",
+        "delete_scene",
+        "delete_track",
+        "delete_return_track",
+        "duplicate_scene",
+        "duplicate_track",
+        "find_device_position",
+        "force_link_beat_time",
+        "get_beats_loop_length",
+        "get_beats_loop_start",
+        "get_current_beats_song_time",
+        "get_current_smpte_song_time",
+        "is_cue_point_selected",
+        "jump_by",
+        "jump_to_next_cue",
+        "jump_to_prev_cue",
+        "move_device",
+        "play_selection",
+        "re_enable_automation",
+        "redo",
+        "scrub_by",
+        "set_or_delete_cue",
+        "start_playing",
+        "stop_all_clips",
+        "stop_playing",
+        "tap_tempo",
+        "trigger_session_record",
+        "undo"
+      ]
+    },
+    {
+      "class": "Song.View",
+      "file": "song_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/song_view/",
+      "description": "This class represents the view aspects of a Live document: the Session and Arrangement Views.",
+      "canonical_paths": [
+        "live_set view"
+      ],
+      "children": [
+        "detail_clip [Clip](https://docs.cycling74.com/apiref/lom/clip/ \"Clip\")observe",
+        "highlighted_clip_slot [ClipSlot](https://docs.cycling74.com/apiref/lom/clipslot/ \"ClipSlot\")",
+        "selected_chain [Chain](https://docs.cycling74.com/apiref/lom/chain/ \"Chain\")observe",
+        "selected_parameter [DeviceParameter](https://docs.cycling74.com/apiref/lom/deviceparameter/ \"DeviceParameter\")read-onlyobserve",
+        "selected_scene [Scene](https://docs.cycling74.com/apiref/lom/scene/ \"Scene\")observe",
+        "selected_track [Track](https://docs.cycling74.com/apiref/lom/track/ \"Track\")observe"
+      ],
+      "properties": [
+        "draw_mode boolobserve",
+        "follow_song boolobserve"
+      ],
+      "functions": [
+        "select_device"
+      ]
+    },
+    {
+      "class": "SpectralResonatorDevice",
+      "file": "spectralresonatordevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/spectralresonatordevice/",
+      "description": "This class represents an instance of a Spectral Resonator device in Live.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "frequency_dial_mode intobserve",
+        "midi_gate intobserve",
+        "mod_mode intobserve",
+        "mono_poly intobserve",
+        "pitch_mode intobserve",
+        "pitch_bend_range intobserve",
+        "polyphony intobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "TakeLane",
+      "file": "takelane.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/takelane/",
+      "description": "This class represents a take lane in Live. Tracks in Live can have take lanes in Arrangement View, which are used for comping. If take lanes exist for a track, they can be shown by right-clicking on a track and choosing Show Take Lanes.",
+      "canonical_paths": [
+        "live_set tracks N take_lanes M"
+      ],
+      "children": [
+        "arrangement_clips list of [Clip](https://docs.cycling74.com/apiref/lom/clip/ \"Clip\")read-onlyobserve"
+      ],
+      "properties": [
+        "name symbolobserve"
+      ],
+      "functions": [
+        "create_audio_clip",
+        "create_midi_clip"
+      ]
+    },
+    {
+      "class": "this_device",
+      "file": "this_device.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/this_device/",
+      "description": "This root path represents the device containing the [live.path](https://docs.cycling74.com/reference/live.path \"live.path\") object to which the `goto this_device` message is sent. The class of this object is `Device`.",
+      "canonical_paths": [
+        "live_set tracks N devices M"
+      ],
+      "children": [],
+      "properties": [],
+      "functions": []
+    },
+    {
+      "class": "Track",
+      "file": "track.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/track/",
+      "description": "This class represents a track in Live. It can either be an audio track, a MIDI track, a return track or the master track. The master track and at least one Audio or MIDI track will be always present. Return tracks are optional.",
+      "canonical_paths": [
+        "live_set tracks N"
+      ],
+      "children": [
+        "take_lanes list of [TakeLane](https://docs.cycling74.com/apiref/lom/takelane/ \"TakeLane\")read-onlyobserve",
+        "clip_slots list of [ClipSlot](https://docs.cycling74.com/apiref/lom/clipslot/ \"ClipSlot\")read-onlyobserve",
+        "arrangement_clips list of [Clip](https://docs.cycling74.com/apiref/lom/clip/ \"Clip\")read-onlyobserve",
+        "devices list of [Device](https://docs.cycling74.com/apiref/lom/device/ \"Device\")read-onlyobserve",
+        "group_track [Track](https://docs.cycling74.com/apiref/lom/track/ \"Track\")read-only",
+        "mixer_device [MixerDevice](https://docs.cycling74.com/apiref/lom/mixerdevice/ \"MixerDevice\")read-only",
+        "view [Track.View](https://docs.cycling74.com/apiref/lom/track_view/ \"Track.View\")read-only"
+      ],
+      "properties": [
+        "arm boolobserve",
+        "available_input_routing_channels dictionaryread-onlyobserve",
+        "available_input_routing_types dictionaryread-onlyobserve",
+        "available_output_routing_channels dictionaryread-onlyobserve",
+        "available_output_routing_types dictionaryread-onlyobserve",
+        "back_to_arranger boolobserve",
+        "can_be_armed boolread-only",
+        "can_be_frozen boolread-only",
+        "can_show_chains boolread-only",
+        "color intobserve",
+        "color_index longobserve",
+        "fired_slot_index intread-onlyobserve",
+        "fold_state int",
+        "has_audio_input boolread-only",
+        "has_audio_output boolread-only",
+        "has_midi_input boolread-only",
+        "has_midi_output boolread-only",
+        "implicit_arm boolobserve",
+        "input_meter_left floatread-onlyobserve",
+        "input_meter_level floatread-onlyobserve",
+        "input_meter_right floatread-onlyobserve",
+        "input_routing_channel dictionaryobserve",
+        "input_routing_type dictionaryobserve",
+        "is_foldable boolread-only",
+        "is_frozen boolread-onlyobserve",
+        "is_grouped boolread-only",
+        "is_part_of_selection boolread-only",
+        "is_showing_chains boolobserve",
+        "is_visible boolread-only",
+        "mute boolobserve",
+        "muted_via_solo boolread-onlyobserve",
+        "name symbolobserve",
+        "output_meter_left floatread-onlyobserve",
+        "output_meter_level floatread-onlyobserve",
+        "output_meter_right floatread-onlyobserve",
+        "performance_impact floatread-onlyobserve",
+        "output_routing_channel dictionaryobserve",
+        "output_routing_type dictionaryobserve",
+        "playing_slot_index intread-onlyobserve",
+        "solo boolobserve"
+      ],
+      "functions": [
+        "create_audio_clip",
+        "create_midi_clip",
+        "create_take_lane",
+        "delete_clip",
+        "delete_device",
+        "duplicate_clip_slot",
+        "duplicate_clip_to_arrangement",
+        "insert_device",
+        "jump_in_running_session_clip",
+        "stop_all_clips"
+      ]
+    },
+    {
+      "class": "Track.View",
+      "file": "track_view.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/track_view/",
+      "description": "Representing the view aspects of a track.",
+      "canonical_paths": [
+        "live_set tracks N view"
+      ],
+      "children": [
+        "selected_device [Device](https://docs.cycling74.com/apiref/lom/device/ \"Device\")read-onlyobserve"
+      ],
+      "properties": [
+        "device_insert_mode intobserve",
+        "is_collapsed boolobserve"
+      ],
+      "functions": [
+        "select_instrument"
+      ]
+    },
+    {
+      "class": "TuningSystem",
+      "file": "tuningsystem.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/tuningsystem/",
+      "description": "This class represents a tuning system in Live.",
+      "canonical_paths": [
+        "live_set tuning_system"
+      ],
+      "children": [],
+      "properties": [
+        "name symbolobserve",
+        "pseudo_octave_in_cents floatread-only",
+        "lowest_note dictionaryobserve",
+        "highest_note dictionaryobserve",
+        "reference_pitch dictionaryobserve",
+        "note_tunings dictionaryobserve"
+      ],
+      "functions": []
+    },
+    {
+      "class": "WavetableDevice",
+      "file": "wavetabledevice.md",
+      "source_url": "https://docs.cycling74.com/apiref/lom/wavetabledevice/",
+      "description": "This class represents a Wavetable instrument.",
+      "canonical_paths": [],
+      "children": [],
+      "properties": [
+        "filter_routing intobserve",
+        "mono_poly intobserve",
+        "oscillator_1_effect_mode intobserve",
+        "oscillator_2_effect_mode intobserve",
+        "oscillator_1_wavetable_category observe",
+        "oscillator_2_wavetable_category observe",
+        "oscillator_1_wavetable_index observe",
+        "oscillator_2_wavetable_index observe",
+        "oscillator_1_wavetables StringVectorread-onlyobserve",
+        "oscillator_2_wavetables StringVectorread-onlyobserve",
+        "oscillator_wavetable_categories StringVectorread-only",
+        "poly_voices intobserve",
+        "unison_mode intobserve",
+        "unison_voice_count intobserve",
+        "visible_modulation_target_names StringVectorread-onlyobserve"
+      ],
+      "functions": [
+        "add_parameter_to_modulation_matrix",
+        "get_modulation_target_parameter_name",
+        "get_modulation_value",
+        "is_parameter_modulatable",
+        "set_modulation_value"
+      ]
+    }
+  ],
+  "important": {
+    "Song": [
+      "tracks",
+      "return_tracks",
+      "master_track",
+      "view",
+      "current_song_time",
+      "tempo",
+      "signature_numerator",
+      "signature_denominator",
+      "create_midi_track",
+      "create_audio_track",
+      "capture_midi"
+    ],
+    "Track": [
+      "arrangement_clips",
+      "clip_slots",
+      "devices",
+      "mixer_device",
+      "create_midi_clip",
+      "create_audio_clip",
+      "duplicate_clip_to_arrangement",
+      "delete_clip",
+      "delete_device"
+    ],
+    "Clip": [
+      "is_arrangement_clip",
+      "is_audio_clip",
+      "is_midi_clip",
+      "start_time",
+      "end_time",
+      "length",
+      "loop_start",
+      "loop_end",
+      "get_all_notes_extended",
+      "get_notes_extended",
+      "add_new_notes",
+      "apply_note_modifications",
+      "warp_markers",
+      "add_warp_marker",
+      "move_warp_marker",
+      "remove_warp_marker"
+    ],
+    "Device": [
+      "parameters",
+      "class_name",
+      "class_display_name",
+      "name",
+      "is_active"
+    ],
+    "DeviceParameter": [
+      "name",
+      "original_name",
+      "value",
+      "display_value",
+      "min",
+      "max",
+      "default_value",
+      "automation_state",
+      "is_enabled",
+      "is_quantized",
+      "value_items"
+    ],
+    "PluginDevice": [
+      "presets",
+      "selected_preset_index"
+    ],
+    "Song.View": [
+      "selected_track",
+      "selected_scene",
+      "selected_parameter",
+      "selected_device",
+      "selected_chain",
+      "highlighted_clip_slot"
+    ],
+    "Application.View": [
+      "focused_document_view",
+      "show_view",
+      "focus_view",
+      "is_view_visible",
+      "zoom_view",
+      "scroll_view"
+    ]
+  }
+}
