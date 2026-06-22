@@ -1,23 +1,112 @@
 from __future__ import annotations
 
-from ..serializers import safe_get
+from ..errors import unsupported_operation
+from ..serializers import (
+    normalize_note_payload,
+    normalize_warp_markers,
+    safe_get,
+    serialize_clip,
+)
+from .resolvers import resolve_arrangement_clip
 
 
-def _resolve_arrangement_clip(song, clip_ref):
-    # v0 resolver: track:N/arrangement_clip:M
-    parts = clip_ref.split("/")
-    track_index = int(parts[0].split(":", 1)[1])
-    clip_index = int(parts[1].split(":", 1)[1])
-    track = list(song.tracks)[track_index]
-    return list(track.arrangement_clips)[clip_index]
+def _clip_type(clip):
+    if safe_get(clip, "is_midi_clip"):
+        return "midi"
+    if safe_get(clip, "is_audio_clip"):
+        return "audio"
+    return "unknown"
 
 
-def get_clip_notes(song, params):
+def _has_note_range(params):
+    return any(params.get(name) is not None for name in ("from_time", "time_span", "from_pitch", "pitch_span"))
+
+
+def _note_range(clip, params):
+    from_pitch = params.get("from_pitch")
+    pitch_span = params.get("pitch_span")
+    from_time = params.get("from_time")
+    time_span = params.get("time_span")
+    if from_pitch is None:
+        from_pitch = 0
+    if pitch_span is None:
+        pitch_span = 128 - int(from_pitch)
+    if from_time is None:
+        from_time = 0.0
+    if time_span is None:
+        time_span = safe_get(clip, "length", 0.0) or 0.0
+    return {
+        "from_pitch": int(from_pitch),
+        "pitch_span": int(pitch_span),
+        "from_time": float(from_time),
+        "time_span": float(time_span),
+    }
+
+
+def get_clip(song, params, app=None):
     clip_ref = params["clip_ref"]
-    clip = _resolve_arrangement_clip(song, clip_ref)
+    clip, clip_ref, _track, _track_ref, _clip_index = resolve_arrangement_clip(song, clip_ref)
+    return {"clip": serialize_clip(clip, clip_ref)}
+
+
+def get_clip_notes(song, params, app=None):
+    clip_ref = params["clip_ref"]
+    clip, clip_ref, _track, _track_ref, _clip_index = resolve_arrangement_clip(song, clip_ref)
     if not safe_get(clip, "is_midi_clip"):
-        raise RuntimeError("Clip is not a MIDI clip; note APIs are unavailable")
-    if hasattr(clip, "get_all_notes_extended"):
-        return {"clip_ref": clip_ref, "notes": clip.get_all_notes_extended()}
-    # Fallback intentionally narrow; Codex should improve with real Live testing.
-    raise RuntimeError("This Live version does not expose get_all_notes_extended in the bridge fallback yet")
+        raise unsupported_operation(
+            "Clip is not a MIDI clip; note APIs are unavailable",
+            {"clip_ref": clip_ref, "clip_type": _clip_type(clip)},
+        )
+    note_range = None
+    if _has_note_range(params):
+        if not hasattr(clip, "get_notes_extended"):
+            raise unsupported_operation(
+                "This Live version does not expose get_notes_extended",
+                {"clip_ref": clip_ref},
+            )
+        note_range = _note_range(clip, params)
+        payload = clip.get_notes_extended(
+            note_range["from_pitch"],
+            note_range["pitch_span"],
+            note_range["from_time"],
+            note_range["time_span"],
+        )
+    elif hasattr(clip, "get_all_notes_extended"):
+        payload = clip.get_all_notes_extended()
+    else:
+        raise unsupported_operation(
+            "This Live version does not expose get_all_notes_extended",
+            {"clip_ref": clip_ref},
+        )
+    notes = normalize_note_payload(payload)
+    return {
+        "clip_ref": clip_ref,
+        "clip": serialize_clip(clip, clip_ref),
+        "range": note_range,
+        "notes": notes,
+        "note_count": len(notes),
+    }
+
+
+def get_audio_clip_warp_markers(song, params, app=None):
+    clip_ref = params["clip_ref"]
+    clip, clip_ref, _track, _track_ref, _clip_index = resolve_arrangement_clip(song, clip_ref)
+    if not safe_get(clip, "is_audio_clip"):
+        raise unsupported_operation(
+            "Warp markers are only available for audio clips.",
+            {"clip_ref": clip_ref, "clip_type": _clip_type(clip)},
+        )
+    raw_markers = safe_get(clip, "warp_markers")
+    if raw_markers is None:
+        raise unsupported_operation(
+            "This Live version did not expose warp markers for the audio clip.",
+            {"clip_ref": clip_ref, "clip_type": _clip_type(clip)},
+        )
+    markers = normalize_warp_markers(raw_markers)
+    return {
+        "clip_ref": clip_ref,
+        "clip": serialize_clip(clip, clip_ref),
+        "markers": markers,
+        "marker_count": len(markers),
+        "raw_marker_type": type(raw_markers).__name__,
+    }

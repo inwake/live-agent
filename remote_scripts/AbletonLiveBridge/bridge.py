@@ -24,7 +24,10 @@ class AbletonLiveBridge(ControlSurface):
         self.host = "127.0.0.1"
         self.port = int(os.environ.get("ABLETON_BRIDGE_PORT", "9877"))
         self.token = os.environ.get("ABLETON_BRIDGE_TOKEN")
-        self.registry = CommandRegistry(song_getter=self.song if hasattr(self, "song") else lambda: None)
+        self.registry = CommandRegistry(
+            song_getter=self.song if hasattr(self, "song") else lambda: None,
+            app_getter=self.application if hasattr(self, "application") else lambda: None,
+        )
         self.dispatcher = CommandDispatcher(self.registry)
         self._shutdown = False
         self._server_thread = threading.Thread(target=self._serve, name="AbletonLiveBridgeSocket", daemon=True)
