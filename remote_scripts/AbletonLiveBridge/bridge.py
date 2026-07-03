@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import socket
 import threading
+import time
 
 try:
     from _Framework.ControlSurface import ControlSurface
@@ -30,6 +31,7 @@ class AbletonLiveBridge(ControlSurface):
         )
         self.dispatcher = CommandDispatcher(self.registry)
         self._shutdown = False
+        self._server = None
         self._server_thread = threading.Thread(target=self._serve, name="AbletonLiveBridgeSocket", daemon=True)
         self._server_thread.start()
 
@@ -39,6 +41,12 @@ class AbletonLiveBridge(ControlSurface):
 
     def disconnect(self):
         self._shutdown = True
+        server = self._server
+        if server is not None:
+            try:
+                server.close()
+            except Exception:
+                pass
         try:
             super().disconnect()
         except Exception:
@@ -46,12 +54,27 @@ class AbletonLiveBridge(ControlSurface):
 
     def _serve(self):
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        server.bind((self.host, self.port))
+        self._server = server
+        # No SO_REUSEADDR: on Windows it lets a second instance bind a live
+        # port, silently splitting traffic between old and new instances.
+        # Retry the bind instead, to ride out the old instance releasing it.
+        for _attempt in range(50):
+            if self._shutdown:
+                return
+            try:
+                server.bind((self.host, self.port))
+                break
+            except OSError:
+                time.sleep(0.1)
+        else:
+            return
         server.listen(8)
         while not self._shutdown:
             try:
                 client, _addr = server.accept()
+            except OSError:
+                # Server socket closed by disconnect(); exit instead of spinning.
+                break
             except Exception:
                 continue
             thread = threading.Thread(target=self._handle_client, args=(client,), daemon=True)

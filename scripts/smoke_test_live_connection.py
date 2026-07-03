@@ -5,7 +5,7 @@ from ableton_live_client import LiveBridgeClient
 
 
 def main() -> None:
-    client = LiveBridgeClient(token=os.getenv("ABLETON_BRIDGE_TOKEN"))
+    client = LiveBridgeClient(token=os.getenv("ABLETON_BRIDGE_TOKEN"), timeout=30.0)
     print(client.call("song.scan"))
 
 
