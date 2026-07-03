@@ -138,21 +138,58 @@ def serialize_parameter(param, ref, index):
     }
 
 
+_NOTE_FIELDS = (
+    "note_id",
+    "pitch",
+    "start_time",
+    "duration",
+    "velocity",
+    "mute",
+    "probability",
+    "velocity_deviation",
+    "release_velocity",
+)
+
+
+def _note_to_dict(note):
+    if isinstance(note, dict):
+        return dict(note)
+    data = {}
+    for field in _NOTE_FIELDS:
+        if hasattr(note, field):
+            data[field] = getattr(note, field)
+    return data
+
+
 def normalize_note_payload(payload):
+    # Real Live returns a MidiNoteVector of MidiNote objects, which is
+    # neither dict nor list/tuple. Iterate anything iterable and
+    # serialize note objects by attribute.
     if payload is None:
         return []
     if isinstance(payload, dict):
         notes = payload.get("notes", [])
-        return list(notes or [])
-    if isinstance(payload, (list, tuple)):
-        return list(payload)
-    return []
+        return [_note_to_dict(note) for note in (notes or [])]
+    try:
+        return [_note_to_dict(note) for note in payload]
+    except TypeError:
+        return []
 
 
 def _marker_from_dict(marker):
     if "sample_time" in marker and "beat_time" in marker:
         return {"sample_time": marker.get("sample_time"), "beat_time": marker.get("beat_time")}
     return dict(marker)
+
+
+def _marker_to_dict(marker):
+    if isinstance(marker, dict):
+        return _marker_from_dict(marker)
+    if isinstance(marker, (list, tuple)) and len(marker) == 2:
+        return {"sample_time": marker[0], "beat_time": marker[1]}
+    if hasattr(marker, "sample_time") and hasattr(marker, "beat_time"):
+        return {"sample_time": marker.sample_time, "beat_time": marker.beat_time}
+    return None
 
 
 def normalize_warp_markers(payload):
@@ -174,12 +211,15 @@ def normalize_warp_markers(payload):
         for sample_time, beat_time in payload.items():
             markers.append({"sample_time": sample_time, "beat_time": beat_time})
         return markers
-    if isinstance(payload, (list, tuple)):
+    # Real Live returns a WarpMarkerVector of WarpMarker objects, which is
+    # neither dict nor list/tuple. Iterate anything iterable and accept
+    # dicts, 2-sequences, or attribute objects.
+    try:
         markers = []
         for marker in payload:
-            if isinstance(marker, dict):
-                markers.append(_marker_from_dict(marker))
-            elif isinstance(marker, (list, tuple)) and len(marker) == 2:
-                markers.append({"sample_time": marker[0], "beat_time": marker[1]})
+            data = _marker_to_dict(marker)
+            if data is not None:
+                markers.append(data)
         return markers
-    return []
+    except TypeError:
+        return []
