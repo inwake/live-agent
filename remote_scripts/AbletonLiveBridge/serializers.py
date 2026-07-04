@@ -428,6 +428,10 @@ def serialize_device_tree(
             }
         )
     else:
+        # Top-level Drum Rack chains are also reachable through DrumPad.chains.
+        # Prefer the pad path for nested devices so counts and parameter totals
+        # do not double-count the same Simpler/device objects.
+        chain_items = [] if drum_pads and safe_get(device, "can_have_drum_pads") else chains
         data["chains"] = [
             serialize_chain(
                 chain,
@@ -439,7 +443,7 @@ def serialize_device_tree(
                 include_empty_drum_pads=include_empty_drum_pads,
                 _seen=_seen,
             )
-            for chain_index, chain in enumerate(chains)
+            for chain_index, chain in enumerate(chain_items)
         ]
         data["return_chains"] = [
             serialize_chain(

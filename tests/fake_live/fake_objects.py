@@ -268,10 +268,17 @@ class FakeSong:
             class_display_name="Simpler",
             sample=kick_sample,
         )
+        kick_chain = FakeChain(
+            "Kick Chain",
+            devices=[simpler],
+            in_note=36,
+            out_note=36,
+            choke_group=1,
+        )
         drum_pad = FakeDrumPad(
             "Kick",
             36,
-            chains=[FakeChain("Kick Chain", devices=[simpler], in_note=36, out_note=36, choke_group=1)],
+            chains=[kick_chain],
         )
         empty_pad = FakeDrumPad("Closed Hat", 42)
         self.drum_rack = FakeDevice(
@@ -281,7 +288,7 @@ class FakeSong:
             class_display_name="Drum Rack",
             can_have_chains=True,
             can_have_drum_pads=True,
-            chains=[FakeChain("Rack Chain", devices=[])],
+            chains=[kick_chain],
             drum_pads=[drum_pad, empty_pad],
             visible_drum_pads=[drum_pad, empty_pad],
         )

@@ -107,8 +107,12 @@ def test_inspect_device_tree_recurses_into_racks_drum_pads_and_samples():
     result = inspect_device_tree(FakeSong(), {"device_ref": "track:0/device:2"})
     tree = result["device_tree"]
     assert tree["class_display_name"] == "Drum Rack"
+    assert tree["chain_count"] == 1
+    assert tree["chains"] == []
     assert tree["drum_pad_count"] == 2
     assert tree["non_empty_drum_pad_count"] == 1
+    assert tree["nested_device_count"] == 1
+    assert tree["sample_count"] == 1
     pad = tree["drum_pads"][0]
     assert pad["name"] == "Kick"
     assert pad["note"] == 36
