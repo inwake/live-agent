@@ -40,18 +40,88 @@ class FakeParameter:
         self.state = 0
 
 
+class FakeSample:
+    def __init__(self, file_path="C:/Samples/Kick.wav"):
+        self.file_path = file_path
+        self.length = 48000
+        self.sample_rate = 48000
+        self.slices = [0, 24000]
+        self.start_marker = 0
+        self.end_marker = 48000
+        self.warp_markers = [
+            {"sample_time": 0.0, "beat_time": 0.0},
+            {"sample_time": 1.0, "beat_time": 1.0},
+        ]
+        self.warp_mode = 0
+        self.warping = True
+        self.slicing_style = 0
+        self.slicing_beat_division = 0
+        self.slicing_region_count = 0
+
+
+class FakeChain:
+    def __init__(self, name, devices=None, in_note=None, out_note=None, choke_group=None):
+        self.name = name
+        self.color = 255
+        self.color_index = 1
+        self.is_auto_colored = False
+        self.has_audio_input = True
+        self.has_audio_output = True
+        self.has_midi_input = True
+        self.has_midi_output = True
+        self.mute = False
+        self.muted_via_solo = False
+        self.solo = False
+        self.devices = devices or []
+        self.mixer_device = None
+        if in_note is not None:
+            self.in_note = in_note
+        if out_note is not None:
+            self.out_note = out_note
+        if choke_group is not None:
+            self.choke_group = choke_group
+
+
+class FakeDrumPad:
+    def __init__(self, name, note, chains=None):
+        self.name = name
+        self.note = note
+        self.mute = False
+        self.solo = False
+        self.chains = chains or []
+
+
 class FakeDevice:
-    def __init__(self, name, parameters=None, class_name="PluginDevice"):
+    def __init__(
+        self,
+        name,
+        parameters=None,
+        class_name="PluginDevice",
+        class_display_name=None,
+        can_have_chains=False,
+        can_have_drum_pads=False,
+        chains=None,
+        return_chains=None,
+        drum_pads=None,
+        visible_drum_pads=None,
+        sample=None,
+    ):
         self.name = name
         self.class_name = class_name
-        self.class_display_name = "Plugin"
+        self.class_display_name = class_display_name or ("Plugin" if class_name == "PluginDevice" else name)
         self.is_active = True
-        self.can_have_chains = False
-        self.can_have_drum_pads = False
+        self.can_have_chains = can_have_chains
+        self.can_have_drum_pads = can_have_drum_pads
         self.type = 1
         self.latency_in_samples = 0
         self.latency_in_ms = 0.0
         self.parameters = parameters or []
+        self.chains = chains or []
+        self.return_chains = return_chains or []
+        self.drum_pads = drum_pads or []
+        self.visible_drum_pads = visible_drum_pads or self.drum_pads[:16]
+        if sample is not None:
+            self.sample = sample
 
 
 class FakeClip:
@@ -160,6 +230,9 @@ class FakeSong:
                     "duration": 0.5,
                     "velocity": 100,
                     "mute": False,
+                    "probability": 0.75,
+                    "velocity_deviation": 7,
+                    "release_velocity": 64,
                 }
             ],
             ranged_notes=[
@@ -170,6 +243,9 @@ class FakeSong:
                     "duration": 0.25,
                     "velocity": 90,
                     "mute": False,
+                    "probability": 1.0,
+                    "velocity_deviation": 0,
+                    "release_velocity": 48,
                 }
             ],
         )
@@ -182,9 +258,51 @@ class FakeSong:
                 {"sample_time": 1.0, "beat_time": 4.0},
             ],
         )
-        self.device = FakeDevice("Serum", [cutoff])
+        resonance = FakeParameter("Resonance", 0.1, default_value=0.0)
+        rack_macro = FakeParameter("Macro 1", 0.7, default_value=0.0)
+        kick_sample = FakeSample("C:/Samples/Kick.wav")
+        simpler = FakeDevice(
+            "Kick Simpler",
+            [FakeParameter("Volume", 0.8, default_value=0.75)],
+            class_name="OriginalSimpler",
+            class_display_name="Simpler",
+            sample=kick_sample,
+        )
+        drum_pad = FakeDrumPad(
+            "Kick",
+            36,
+            chains=[FakeChain("Kick Chain", devices=[simpler], in_note=36, out_note=36, choke_group=1)],
+        )
+        empty_pad = FakeDrumPad("Closed Hat", 42)
+        self.drum_rack = FakeDevice(
+            "Drum Rack",
+            [rack_macro],
+            class_name="DrumGroupDevice",
+            class_display_name="Drum Rack",
+            can_have_chains=True,
+            can_have_drum_pads=True,
+            chains=[FakeChain("Rack Chain", devices=[])],
+            drum_pads=[drum_pad, empty_pad],
+            visible_drum_pads=[drum_pad, empty_pad],
+        )
+        nested_filter = FakeDevice(
+            "Auto Filter",
+            [cutoff, resonance],
+            class_name="AutoFilter",
+            class_display_name="Auto Filter",
+        )
+        self.instrument_rack = FakeDevice(
+            "Bass Rack",
+            [rack_macro],
+            class_name="InstrumentGroupDevice",
+            class_display_name="Instrument Rack",
+            can_have_chains=True,
+            chains=[FakeChain("Bass Layer", devices=[nested_filter])],
+            return_chains=[FakeChain("Rack Verb", devices=[FakeDevice("Echo", [FakeParameter("Dry/Wet", 0.2)], class_name="Echo")])],
+        )
+        self.device = FakeDevice("Serum", [cutoff, resonance])
         self.tracks = [
-            FakeTrack("Bass", arrangement_clips=[self.midi_clip], devices=[self.device]),
+            FakeTrack("Bass", arrangement_clips=[self.midi_clip], devices=[self.device, self.instrument_rack, self.drum_rack]),
             FakeTrack(
                 "Vox",
                 arrangement_clips=[self.audio_clip],
@@ -193,8 +311,34 @@ class FakeSong:
                 has_audio_input=True,
             ),
         ]
-        self.return_tracks = [FakeTrack("Reverb Return", has_midi_input=False, has_audio_input=True)]
-        self.master_track = FakeTrack("Master", has_midi_input=False, has_audio_input=False)
+        self.return_tracks = [
+            FakeTrack(
+                "Reverb Return",
+                devices=[
+                    FakeDevice(
+                        "Hybrid Reverb",
+                        [FakeParameter("Decay", 0.4), FakeParameter("Dry/Wet", 0.25)],
+                        class_name="HybridReverb",
+                        class_display_name="Hybrid Reverb",
+                    )
+                ],
+                has_midi_input=False,
+                has_audio_input=True,
+            )
+        ]
+        self.master_track = FakeTrack(
+            "Master",
+            devices=[
+                FakeDevice(
+                    "Limiter",
+                    [FakeParameter("Ceiling", -0.3, min=-70.0, max=6.0), FakeParameter("Gain", 0.0, min=-35.0, max=35.0)],
+                    class_name="Limiter",
+                    class_display_name="Limiter",
+                )
+            ],
+            has_midi_input=False,
+            has_audio_input=False,
+        )
         self.view = FakeSongView(
             selected_track=self.tracks[0],
             detail_clip=self.midi_clip,

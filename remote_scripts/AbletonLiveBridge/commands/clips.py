@@ -88,6 +88,31 @@ def get_clip_notes(song, params, app=None):
     }
 
 
+def _note_field_visibility(notes):
+    fields = ("velocity", "mute", "probability", "velocity_deviation", "release_velocity")
+    return {field: any(field in note for note in notes) for field in fields}
+
+
+def inspect_clip_notes(song, params, app=None):
+    result = get_clip_notes(song, params, app=app)
+    notes = result["notes"]
+    field_visibility = _note_field_visibility(notes)
+    result["field_visibility"] = field_visibility
+    result["missing_fields"] = [
+        field for field, visible in field_visibility.items() if not visible
+    ]
+    result["limitations"] = []
+    if result["missing_fields"]:
+        result["limitations"].append(
+            {
+                "code": "MIDI_NOTE_FIELDS_NOT_OBSERVED",
+                "message": "Some extended MIDI note fields were not present in the returned notes.",
+                "details": {"fields": result["missing_fields"]},
+            }
+        )
+    return result
+
+
 def get_audio_clip_warp_markers(song, params, app=None):
     clip_ref = params["clip_ref"]
     clip, clip_ref, _track, _track_ref, _clip_index = resolve_arrangement_clip(song, clip_ref)

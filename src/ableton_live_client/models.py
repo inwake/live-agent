@@ -90,8 +90,12 @@ class DeviceSummary(BaseModel):
     name: str | None = None
     class_name: str | None = None
     class_display_name: str | None = None
+    device_kind: str | None = None
+    is_plugin: bool | None = None
+    is_native: bool | None = None
     is_active: bool | None = None
     parameter_count: int | None = None
+    exposure_status: str | None = None
 
 
 class WarpMarker(BaseModel):

@@ -106,12 +106,61 @@ def resolve_device(song, device_ref):
     if not isinstance(device_ref, str):
         raise bad_request("device_ref is required and must be a string", {"device_ref": device_ref})
     parts = device_ref.split("/")
-    if len(parts) != 2:
-        raise bad_request("Expected device ref shaped like track:N/device:M", {"device_ref": device_ref})
     track, track_ref, _track_index, _kind = resolve_track(song, parts[0])
-    device_index = _parse_indexed_ref(parts[1], "device")
-    device = _item_at(safe_get(track, "devices", []), device_index, device_ref)
-    return device, "%s/device:%d" % (track_ref, device_index), track, track_ref, device_index
+    if len(parts) < 2:
+        raise bad_request(
+            "Expected device ref shaped like track:N/device:M or a nested rack device path",
+            {"device_ref": device_ref},
+        )
+
+    current_devices = list(safe_get(track, "devices", []) or [])
+    chain_source = None
+    device = None
+    device_index = None
+    normalized = track_ref
+
+    for part in parts[1:]:
+        if part.startswith("device:"):
+            if current_devices is None:
+                raise bad_request("Device segment is not valid at this point in the reference", {"device_ref": device_ref})
+            device_index = _parse_indexed_ref(part, "device")
+            device = _item_at(current_devices, device_index, device_ref)
+            normalized = "%s/device:%d" % (normalized, device_index)
+            current_devices = None
+            chain_source = device
+        elif part.startswith("chain:"):
+            if chain_source is None:
+                raise bad_request("Chain segment must follow a device or drum_pad segment", {"device_ref": device_ref})
+            chain_index = _parse_indexed_ref(part, "chain")
+            chain = _item_at(safe_get(chain_source, "chains", []), chain_index, device_ref)
+            normalized = "%s/chain:%d" % (normalized, chain_index)
+            current_devices = list(safe_get(chain, "devices", []) or [])
+            chain_source = None
+        elif part.startswith("return_chain:"):
+            if chain_source is None:
+                raise bad_request("Return-chain segment must follow a rack device segment", {"device_ref": device_ref})
+            chain_index = _parse_indexed_ref(part, "return_chain")
+            chain = _item_at(safe_get(chain_source, "return_chains", []), chain_index, device_ref)
+            normalized = "%s/return_chain:%d" % (normalized, chain_index)
+            current_devices = list(safe_get(chain, "devices", []) or [])
+            chain_source = None
+        elif part.startswith("drum_pad:"):
+            if chain_source is None:
+                raise bad_request("Drum-pad segment must follow a Drum Rack device segment", {"device_ref": device_ref})
+            pad_index = _parse_indexed_ref(part, "drum_pad")
+            drum_pad = _item_at(safe_get(chain_source, "drum_pads", []), pad_index, device_ref)
+            normalized = "%s/drum_pad:%d" % (normalized, pad_index)
+            current_devices = None
+            chain_source = drum_pad
+        else:
+            raise bad_request(
+                "Unexpected device reference segment",
+                {"device_ref": device_ref, "segment": part},
+            )
+
+    if device is None or not parts[-1].startswith("device:"):
+        raise bad_request("Device reference must end with a device segment", {"device_ref": device_ref})
+    return device, normalized, track, track_ref, device_index
 
 
 def find_device_ref(song, target, track=None, track_ref=None):
@@ -134,13 +183,13 @@ def resolve_parameter(song, parameter_ref):
     if not isinstance(parameter_ref, str):
         raise bad_request("parameter_ref is required and must be a string", {"parameter_ref": parameter_ref})
     parts = parameter_ref.split("/")
-    if len(parts) != 3:
+    if len(parts) < 3 or not parts[-1].startswith("parameter:"):
         raise bad_request(
-            "Expected parameter ref shaped like track:N/device:M/parameter:P",
+            "Expected parameter ref shaped like track:N/device:M/parameter:P or a nested rack parameter path",
             {"parameter_ref": parameter_ref},
         )
-    device, device_ref, track, track_ref, device_index = resolve_device(song, "/".join(parts[:2]))
-    parameter_index = _parse_indexed_ref(parts[2], "parameter")
+    device, device_ref, track, track_ref, device_index = resolve_device(song, "/".join(parts[:-1]))
+    parameter_index = _parse_indexed_ref(parts[-1], "parameter")
     parameter = _item_at(safe_get(device, "parameters", []), parameter_index, parameter_ref)
     return (
         parameter,

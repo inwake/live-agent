@@ -27,3 +27,8 @@ def test_live_set_facade_exposes_v01_read_commands():
     assert live_set.devices("track:0")["command_type"] == "track.get_devices"
     assert live_set.device_parameters("track:0/device:0")["command_type"] == "device.get_parameters"
     assert live_set.selected_context()["command_type"] == "selection.get_context"
+    assert live_set.inspect_capabilities()["command_type"] == "set.inspect_capabilities"
+    assert live_set.inspect_track_detail("return_track:0")["params"] == {"track_ref": "return_track:0"}
+    assert live_set.inspect_device_tree("track:0/device:0")["command_type"] == "device.inspect_tree"
+    assert live_set.inspect_clip_notes("track:0/arrangement_clip:0")["command_type"] == "clip.inspect_notes"
+    assert live_set.inspect_parameter_exposure()["command_type"] == "set.inspect_parameter_exposure"

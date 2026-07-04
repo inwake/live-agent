@@ -4,8 +4,15 @@ from ..errors import BridgeCommandError
 from ..protocol import err, ok
 from .song import scan_song
 from .arrangement import get_arrangement_clips
-from .clips import get_audio_clip_warp_markers, get_clip, get_clip_notes
-from .devices import get_track_devices, get_device_parameters
+from .clips import get_audio_clip_warp_markers, get_clip, get_clip_notes, inspect_clip_notes
+from .devices import (
+    get_device_parameters,
+    get_track_devices,
+    inspect_device_tree,
+    inspect_live_set_capabilities,
+    inspect_parameter_exposure,
+    inspect_track_detail,
+)
 from .selection import get_selected_context
 
 
@@ -18,9 +25,14 @@ class CommandRegistry:
             "arrangement.get_clips": get_arrangement_clips,
             "clip.get": get_clip,
             "clip.get_notes": get_clip_notes,
+            "clip.inspect_notes": inspect_clip_notes,
             "clip.get_warp_markers": get_audio_clip_warp_markers,
             "track.get_devices": get_track_devices,
             "device.get_parameters": get_device_parameters,
+            "track.inspect_detail": inspect_track_detail,
+            "device.inspect_tree": inspect_device_tree,
+            "set.inspect_parameter_exposure": inspect_parameter_exposure,
+            "set.inspect_capabilities": inspect_live_set_capabilities,
             "selection.get_context": get_selected_context,
         }
 
